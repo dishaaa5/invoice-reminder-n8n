@@ -21,10 +21,13 @@ This workflow automatically sends WhatsApp reminders for invoices using **Google
 ## 📸 Screenshots
 
 ### 🧩 Workflow Overview
-![Workflow Overview](workflow-overview.png)
+![Workflow Overview](invoice_whatsapp_workflow/workflow-overview.png)
 
 ### 🗃️ Google Sheet Data
-![Google Sheet Data](google-sheet-data.png)
+![Google Sheet Data](invoice_whatsapp_workflow/google-sheet-data.png)
+
+
+
 
 ---
 **Made with ❤️ using n8n**
