@@ -1,0 +1,219 @@
+{
+  "name": "Auto Invoice + Payment Reminder",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1k51TOlH3HK-5h1unp1nxIctQyvYb2qKLDsxZZdKKo10",
+          "mode": "list",
+          "cachedResultName": "Contact Information (Responses)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k51TOlH3HK-5h1unp1nxIctQyvYb2qKLDsxZZdKKo10/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1783323861,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k51TOlH3HK-5h1unp1nxIctQyvYb2qKLDsxZZdKKo10/edit#gid=1783323861"
+        },
+        "options": {}
+      },
+      "name": "Google Sheets Trigger",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1344,
+        64
+      ],
+      "id": "f0960ba5-1e40-49d3-bfe5-609f56bef4c8",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "PpANEuLeft9G7OvB",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "from": "+14155238886",
+        "to": "=+919034413407",
+        "toWhatsapp": true,
+        "message": "=Hi {{$json[\"Name\"]}}, 👋   Thank you for your order!   Here’s your invoice for ₹{{$json[\"Amount\"]}}.   Please complete your payment at your earliest convenience. 💼",
+        "options": {}
+      },
+      "name": "Send Invoice WhatsApp",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        -1056,
+        64
+      ],
+      "id": "dc85865e-338b-449e-880d-4bb415e5a7b6",
+      "credentials": {
+        "twilioApi": {
+          "id": "8ulYQqyQAkZiqioL",
+          "name": "Twilio account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "days"
+      },
+      "name": "Wait 5 Days",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        -752,
+        64
+      ],
+      "id": "799ddbac-5cdd-46f2-a57b-8d79fd5f00ae",
+      "webhookId": "05ea3032-60d8-480c-9a27-e5754a376bc6"
+    },
+    {
+      "parameters": {
+        "sheetId": "https://docs.google.com/spreadsheets/d/1k51TOlH3HK-5h1unp1nxIctQyvYb2qKLDsxZZdKKo10/edit?resourcekey=&gid=1783323861#gid=1783323861",
+        "range": "Form Responses 1",
+        "options": {}
+      },
+      "name": "Check Payment Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        64
+      ],
+      "id": "1d4ba368-d386-4f11-acce-23b0cc94a300",
+      "credentials": {
+        "googleApi": {
+          "id": "oq6Ey4CX1wYIrJ0D",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [],
+          "string": [
+            {
+              "value1": "={{$json[\"Payment Status\"]}}",
+              "operation": "equals",
+              "value2": "Unpaid"
+            }
+          ]
+        }
+      },
+      "name": "If Unpaid",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        64
+      ],
+      "id": "3aa5f332-f72e-48df-a9e7-a81431a2ae6a"
+    },
+    {
+      "parameters": {
+        "from": "whatsapp:+14155238886",
+        "to": "=+919034413407",
+        "toWhatsapp": true,
+        "message": "Hi {{$json[\"Name\"]}}, 🌻   This is a friendly reminder that your invoice of ₹{{$json[\"Amount\"]}} is still pending.    You can complete the payment using the invoice link below 👇   {{Invoice_Link}}    Please ignore this message if you’ve already made the payment.   Thank you for your time and trust! 💼   – Team Disha",
+        "options": {}
+      },
+      "name": "Send Reminder WhatsApp",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "638816ea-cd54-42e1-814c-c8f8ef906dd8",
+      "credentials": {
+        "twilioApi": {
+          "id": "8ulYQqyQAkZiqioL",
+          "name": "Twilio account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send Invoice WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Invoice WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Wait 5 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 5 Days": {
+      "main": [
+        [
+          {
+            "node": "Check Payment Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Payment Status": {
+      "main": [
+        [
+          {
+            "node": "If Unpaid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Unpaid": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Send Reminder WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d54245c1-5e0c-459c-bda5-1e56ba0323ad",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f9ac3a40d0b6589e2299cf42850b291b0bdef760619180937e687113466bb3fc"
+  },
+  "id": "cxx7icTMMlMAWe3T",
+  "tags": []
+}
