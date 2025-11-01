@@ -1,25 +1,42 @@
-# 💰 Invoice & Payment Reminder Workflow (n8n)
+# 💰 Invoice WhatsApp Reminder Workflow (n8n)
 
-This workflow automatically sends WhatsApp reminders for invoices using **Google Sheets + Twilio API**.
-
-## 🚀 Features
-- Triggers when a new row is added in Google Sheets
-- Sends personalized WhatsApp reminders via Twilio
-- Helps freelancers and businesses stay on top of payments
-
-## 🧠 Tech Used
-- n8n (Open-source automation tool)
-- Twilio API
-- Google Sheets
-
-## 🗂 How to Use
-1. Import the `invoice_reminder.json` file into n8n.
-2. Update your Twilio credentials (SID & Auth Token).
-3. Connect your Google Sheets account.
-4. Activate the workflow!
-
-## 📸 Preview
-(Add screenshots of your workflow here if possible)
+This n8n workflow automatically sends WhatsApp payment reminders using **Google Sheets + Twilio API**.
 
 ---
-**Made with ❤️ using n8n**
+
+## 🚀 Features
+✅ Triggered automatically when a new entry is added in Google Sheets  
+✅ Sends personalized WhatsApp reminders with customer name and amount  
+✅ Perfect for freelancers or businesses managing client payments  
+
+---
+
+## 🧠 Tech Used
+- n8n (Open-source automation)
+- Twilio API (WhatsApp messaging)
+- Google Sheets (Data source)
+
+---
+
+## 🗂 How to Use
+1. Import `workflow.json` into your n8n instance.  
+2. Connect your **Google Sheets** and **Twilio** credentials.  
+3. Update your Sheet name and column fields if needed.  
+4. Activate the workflow — it will send WhatsApp reminders automatically!  
+
+---
+
+## 📸 Screenshots
+
+### 🧩 Workflow Overview
+![Workflow Overview](workflow-overview.png)
+
+### 🗃️ Google Sheet Data
+![Google Sheet Data](google-sheet-data.png)
+
+### 💬 WhatsApp Message Example
+![WhatsApp Screenshot](Screenshot%20(1631).png)
+
+---
+
+## 🏷️ Folder Structure
